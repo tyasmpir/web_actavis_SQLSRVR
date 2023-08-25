@@ -107,7 +107,19 @@ class ScheduleCheck extends Command
                 $newtemprunnbr = str_pad($tempnewrunnbr,4,'0',STR_PAD_LEFT);
                 }
 
-                $runningnbr = $tablern->wt_prefix.'-'.$tablern->year.'-'.$newtemprunnbr;
+        // ganti tahun baru 2023.05.04
+        $tahun = substr(Carbon::now()->format('Y'),2,2);
+        if($tablern->year != $tahun) {
+           $dispthn = $tahun;
+           $dispnum = "0001";
+        } else {
+           $dispthn = $tablern->year;
+           $dispnum = $newtemprunnbr; 
+        } 
+
+        $runningnbr = $tablern->wt_prefix.'-'.$dispthn.'-'.$dispnum;
+
+                /* $runningnbr = $tablern->wt_prefix.'-'.$tablern->year.'-'.$newtemprunnbr; */
 
                 //Mencari engineering
                 $dataeng = DB::table('users')
@@ -160,7 +172,8 @@ class ScheduleCheck extends Command
 
                 DB::table('running_mstr')
                 ->update([
-                    'wt_nbr' => $newtemprunnbr
+                    'wt_nbr' => $dispnum,
+                    'year' => $dispthn
                 ]);
 
 
@@ -236,7 +249,19 @@ class ScheduleCheck extends Command
                 $newtemprunnbr = str_pad($tempnewrunnbr,4,'0',STR_PAD_LEFT);
                 }
 
-                $runningnbr = $tablern->wt_prefix.'-'.$tablern->year.'-'.$newtemprunnbr;
+        // ganti tahun baru 2023.05.04
+        $tahun = substr(Carbon::now()->format('Y'),2,2);
+        if($tablern->year != $tahun) {
+           $dispthn = $tahun;
+           $dispnum = "0001";
+        } else {
+           $dispthn = $tablern->year;
+           $dispnum = $newtemprunnbr; 
+        } 
+
+        $runningnbr = $tablern->wt_prefix.'-'.$dispthn.'-'.$dispnum;
+
+                /* $runningnbr = $tablern->wt_prefix.'-'.$tablern->year.'-'.$newtemprunnbr; */
                 
                 $dataarray = array(
                     'wo_nbr' => $runningnbr,
@@ -262,7 +287,8 @@ class ScheduleCheck extends Command
 
                 DB::table('running_mstr')
                 ->update([
-                    'wt_nbr' => $newtemprunnbr
+                    'wt_nbr' => $dispnum,
+                    'year' => $dispthn,
                 ]);
 
 

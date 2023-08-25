@@ -103,7 +103,6 @@ class ServiceController extends Controller{
         // dd($req->all());
 
         $counterimpact = count($req->impact);
-        // dd($test);
 
         $newimpact = "";
 
@@ -112,11 +111,6 @@ class ServiceController extends Controller{
         }
 
         $newimpact = substr($newimpact, 0, strlen($newimpact) - 1);
-        
-
-        // dd($newimpact);
-
-        // dd(Config::get('mail'));
 
         $running = DB::table('running_mstr')
                     ->first();
@@ -126,10 +120,21 @@ class ServiceController extends Controller{
         $newtemprunnbr = '';
         if(strlen($tempnewrunnbr) < 4){
             $newtemprunnbr = str_pad($tempnewrunnbr,4,'0',STR_PAD_LEFT);
+        } else {
+            $newtemprunnbr = $tempnewrunnbr;
         }
-        
 
-        $runningnbr = $running->sr_prefix.'-'.$running->year.'-'.$newtemprunnbr;
+        // ganti tahun baru 2023.05.04
+        $tahun = substr(Carbon::now()->format('Y'),2,2);
+        if($running->year != $tahun) {
+           $dispthn = $tahun;
+           $dispnum = "0001";
+        } else {
+           $dispthn = $running->year;
+           $dispnum = $newtemprunnbr; 
+        } 
+
+        $runningnbr = $running->sr_prefix.'-'.$dispthn.'-'.$dispnum;
 
         DB::table('service_req_mstr')
             ->insert([
@@ -161,14 +166,15 @@ class ServiceController extends Controller{
 
             DB::table('running_mstr')
                 ->update([
-                    'sr_nbr' => $newtemprunnbr,
+                    'sr_nbr' => $dispnum, /* 2023.05.04  $newtemprunnbr, */
+                    'year' => $dispthn,
                 ]);
 
             // dd('stop here');
 
         // $sendmail = (new Emaill())->delay(Carbon::now()->addSeconds(3));
 
-        EmailScheduleJobs::dispatch('','','3','','',$runningnbr,'');
+        /* ditutup dulu buat test, nanti dibuka lagi EmailScheduleJobs::dispatch('','','3','','',$runningnbr,''); */
     
         echo "email sent";
 
@@ -334,12 +340,24 @@ class ServiceController extends Controller{
                 $newtemprunnbr = '';
                 if(strlen($tempnewrunnbr) < 4){
                     $newtemprunnbr = str_pad($tempnewrunnbr,4,'0',STR_PAD_LEFT);
+                } else {
+                    $newtemprunnbr = $tempnewrunnbr;
                 }
-    
+
+                // ganti tahun baru 2023.05.04
+                $tahun = substr(Carbon::now()->format('Y'),2,2);
+                if($running->year != $tahun) {
+                   $dispthn = $tahun;
+                   $dispnum = "0001";
+                } else {
+                   $dispthn = $running->year;
+                   $dispnum = $newtemprunnbr; 
+                } 
+
+                $runningnbr = $running->wo_prefix.'-'.$dispthn.'-'.$dispnum;
+                /* $runningnbr = $running->wo_prefix.'-'.$running->year.'-'.$newtemprunnbr; */
 
                 $asset = $req->assetcode.' -- '.$req->assetdesc;
-
-                $runningnbr = $running->wo_prefix.'-'.$running->year.'-'.$newtemprunnbr;
 
                 $tampungarray = [];
                 $tampungarray2 = [];
@@ -614,11 +632,10 @@ class ServiceController extends Controller{
                     ]);
 
                 //update running number
-                
-
                 DB::table('running_mstr')
                     ->update([
-                        'wo_nbr' => $newtemprunnbr,
+                        'wo_nbr' => $dispnum, /* $newtemprunnbr, */
+                        'year' => $dispthn,
                     ]);
 
                 $a = 2; //SR diapprove

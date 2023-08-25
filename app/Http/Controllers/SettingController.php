@@ -4879,8 +4879,8 @@ class SettingController extends Controller
                         ->count();
         
         //pembatas membuat user baru
-        if($jumlahusernow >= 19){  // ID user actavis 18, ID user imi 1
-            toast('Max. Create 18 User Only', 'error');
+        if($jumlahusernow >= 15){  // ID user actavis 14, ID user imi 1
+            toast('Max. Create 14 User Only', 'error');
             return back();
         }
 

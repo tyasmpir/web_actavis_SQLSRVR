@@ -361,14 +361,29 @@ class wocontroller extends Controller
         }
         //dd($req->get('c_engineer')[0]);
         //dd($req->get('c_engineer')[4]);
-        $tablern = DB::table('running_mstr')
+        $tablern = DB::table('running_mstr') /* 1 */
                 ->first();
         $tempnewrunnbr = strval(intval($tablern->wd_nbr)+1);
 	    $newtemprunnbr = '';
 	    if(strlen($tempnewrunnbr) < 4){
 	      $newtemprunnbr = str_pad($tempnewrunnbr,4,'0',STR_PAD_LEFT);
-	    }
-        $runningnbr = $tablern->wd_prefix.'-'.$tablern->year.'-'.$newtemprunnbr;
+	    } else {
+                    $newtemprunnbr = $tempnewrunnbr;
+                }
+
+                // ganti tahun baru 2023.05.04
+                $tahun = substr(Carbon::now()->format('Y'),2,2);
+                if($tablern->year != $tahun) {
+                   $dispthn = $tahun;
+                   $dispnum = "0001";
+                } else {
+                   $dispthn = $tablern->year;
+                   $dispnum = $newtemprunnbr; 
+                } 
+
+                $runningnbr = $tablern->wd_prefix.'-'.$dispthn.'-'.$dispnum;
+				
+        /* $runningnbr = $tablern->wd_prefix.'-'.$tablern->year.'-'.$newtemprunnbr; */
         if($wotype == 'auto'){
             if(isset($req->repairtype)){
                 if ($req->repairtype == 'manual'){
@@ -809,7 +824,8 @@ class wocontroller extends Controller
         DB::table('running_mstr')
         ->where('wd_nbr', '=', $tablern->wd_nbr)
         ->update([
-            'wd_nbr' => $newtemprunnbr
+            'wd_nbr' => $dispnum, /* $newtemprunnbr */
+			'year' => $dispthn
         ]);
 
         $albumraw = $req->imgname;
@@ -911,8 +927,23 @@ class wocontroller extends Controller
 	    $newtemprunnbr = '';
 	    if(strlen($tempnewrunnbr) < 4){
 	      $newtemprunnbr = str_pad($tempnewrunnbr,4,'0',STR_PAD_LEFT);
-	    }
-        $runningnbr = $tablern->wo_prefix.'-'.$tablern->year.'-'.$newtemprunnbr;
+	    } else {
+                    $newtemprunnbr = $tempnewrunnbr;
+                }
+
+                // ganti tahun baru 2023.05.04
+                $tahun = substr(Carbon::now()->format('Y'),2,2);
+                if($tablern->year != $tahun) {
+                   $dispthn = $tahun;
+                   $dispnum = "0001";
+                } else {
+                   $dispthn = $tablern->year;
+                   $dispnum = $newtemprunnbr; 
+                } 
+
+                $runningnbr = $tablern->wo_prefix.'-'.$dispthn.'-'.$dispnum;
+
+        /* $runningnbr = $tablern->wo_prefix.'-'.$tablern->year.'-'.$newtemprunnbr; */
         
         $dataarray = array(
             'wo_nbr'           => $runningnbr,
@@ -935,9 +966,10 @@ class wocontroller extends Controller
         // dd($dataarray);
         DB::table('wo_mstr')->insert($dataarray);
         DB::table('running_mstr')
-        ->where('wo_nbr', '=', $tablern->wo_nbr)
+        /* ->where('wo_nbr', '=', $tablern->wo_nbr) */
         ->update([
-            'wo_nbr' => $newtemprunnbr
+            'wo_nbr' => $dispnum, /* $newtemprunnbr */
+            'year' => $dispthn,
         ]);
         $assettable = DB::table('asset_mstr')
             ->where('asset_code','=',$req->c_asset)
@@ -952,7 +984,7 @@ class wocontroller extends Controller
     }
 
     public function createwo(Request $req){
-        dd($req->all());
+        // dd($req->all());
          // dd($req->get('c_failure'));
         //  dd($req->crepaircode1);
         $eng1 = '';
@@ -1042,8 +1074,22 @@ class wocontroller extends Controller
 	    $newtemprunnbr = '';
 	    if(strlen($tempnewrunnbr) < 4){
 	      $newtemprunnbr = str_pad($tempnewrunnbr,4,'0',STR_PAD_LEFT);
-	    }
-        $runningnbr = $tablern->wo_prefix.'-'.$tablern->year.'-'.$newtemprunnbr;
+	    } else {
+               $newtemprunnbr = $tempnewrunnbr;
+            }
+
+        // ganti tahun baru 2023.05.04
+        $tahun = substr(Carbon::now()->format('Y'),2,2);
+        if($tablern->year != $tahun) {
+           $dispthn = $tahun;
+           $dispnum = "0001";
+        } else {
+           $dispthn = $tablern->year;
+           $dispnum = $newtemprunnbr; 
+        } 
+
+        $runningnbr = $tablern->wo_prefix.'-'.$dispthn.'-'.$dispnum;
+        /* $runningnbr = $tablern->wo_prefix.'-'.$tablern->year.'-'.$newtemprunnbr; */
         
         $dataarray = array(
             'wo_nbr'           => $runningnbr,
@@ -1100,9 +1146,10 @@ class wocontroller extends Controller
         }
         
         DB::table('running_mstr')
-        ->where('wo_nbr', '=', $tablern->wo_nbr)
+        /* ->where('wo_nbr', '=', $tablern->wo_nbr) */
         ->update([
-            'wo_nbr' => $newtemprunnbr
+            'wo_nbr' => $dispnum, /* $newtemprunnbr */
+            'year' => $dispthn,
         ]);
         $assettable = DB::table('asset_mstr')
             ->where('asset_code','=',$req->c_asset)
