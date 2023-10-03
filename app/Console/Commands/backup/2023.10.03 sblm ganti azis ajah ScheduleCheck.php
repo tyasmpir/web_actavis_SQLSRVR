@@ -146,13 +146,11 @@ class ScheduleCheck extends Command
                     'wo_nbr' => $runningnbr,
                     //'wo_status' => 'plan', -> A211025
                     'wo_status' => 'open',
-                    'wo_engineer1' => 'azis',
-                    /** 2023.10.03 Permintaan by WA untuk mengganti teknisi PM hanya azis */ 
-                    // 'wo_engineer1' => $techeng[0], 
-                    // 'wo_engineer2' => $techeng[1], 
-                    // 'wo_engineer3' => $techeng[2], 
-                    // 'wo_engineer4' => $techeng[3], 
-                    // 'wo_engineer5' => $techeng[4], 
+                    'wo_engineer1' => $techeng[0], 
+                    'wo_engineer2' => $techeng[1], 
+                    'wo_engineer3' => $techeng[2], 
+                    'wo_engineer4' => $techeng[3], 
+                    'wo_engineer5' => $techeng[4], 
 					'wo_priority' => 'high',
                     'wo_repair_type' => $data->asset_repair_type,
                     'wo_repair_group' => $repgroup,

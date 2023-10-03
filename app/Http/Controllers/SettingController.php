@@ -4878,9 +4878,11 @@ class SettingController extends Controller
         $jumlahusernow = DB::table('users')
                         ->count();
         
+        /** 2023.09.25 Penambahan 3 akses user, menjadi 17 */
+        
         //pembatas membuat user baru
-        if($jumlahusernow >= 15){  // ID user actavis 14, ID user imi 1
-            toast('Max. Create 14 User Only', 'error');
+        if($jumlahusernow >= 18){  // ID user actavis 14, ID user imi 1
+            toast('Max. Create 17 User Only', 'error');
             return back();
         }
 
