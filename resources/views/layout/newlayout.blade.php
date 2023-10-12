@@ -330,7 +330,14 @@ to get the desired effect
                 </p>
               </a>
               <ul class="nav nav-treeview">
-              
+                <li class="nav-item has-treeview">
+                  <a href="{{url('/wostat')}}" class="nav-link">
+                    <i class="nav-icon far fa-circle"></i>
+                    <p>
+                      WO Status
+                    </p>
+                  </a>
+                </li>
                 <li class="nav-item has-treeview">
                   <a href="{{url('/allrpt')}}" class="nav-link">
                     <i class="nav-icon far fa-circle"></i>

@@ -348,6 +348,7 @@ Route::group(['middleware' => ['auth']], function() {
 	route::get('/assetrptview', 'UserChartController@assetrptview');
 	route::get('/assetgraf', 'UserChartController@assetgraf');
 	route::get('/enggraf', 'UserChartController@enggraf');
+	route::get('/wostat', 'UserChartController@wostat'); /** 2023.10.12 Menampilkan laporan jumlah status WO yang sudah terbentuk */
 
 	//work order maintenance
 	route::get('/womaint', 'wocontroller@wobrowse')->name('womaint');
@@ -385,6 +386,7 @@ Route::group(['middleware' => ['auth']], function() {
 	route::get('/downloadwofinish/{id}', 'wocontroller@downloadwofinish'); // untuk donload file dari wo finish
 	route::get('/delfilewofinish/{id}', 'wocontroller@delfilewofinish'); // untuk delete file wo finish dari approval spv`
 	route::get('/woreportpage', 'wocontroller@woreportpage')->name('woreportpage'); //fungsi untuk menampung page yang sama setelah submit
+
 	
 
 

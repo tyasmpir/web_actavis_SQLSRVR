@@ -1018,5 +1018,18 @@ class UserChartController extends Controller
                             'close'  => $jmlclose,
                         ], 200);
     }
+
+    public function wostat(Request $req)
+    {      
+        $data = DB::table('wo_mstr')
+            ->select('wo_status', DB::raw('count(wo_status) as jmlstatus'))
+            ->groupBy('wo_status')
+            ->orderBy('wo_status')
+            ->get();
+
+
+        return view('report.wostat', ['data' => $data]);
+
+    }
     
 }
