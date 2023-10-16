@@ -1022,13 +1022,24 @@ class UserChartController extends Controller
     public function wostat(Request $req)
     {      
         $data = DB::table('wo_mstr')
-            ->select('wo_status', DB::raw('count(wo_status) as jmlstatus'))
+            ->select('wo_status')
             ->groupBy('wo_status')
             ->orderBy('wo_status')
             ->get();
 
-
-        return view('report.wostat', ['data' => $data]);
+        $datawo = DB::table('wo_mstr')
+            ->select('wo_status', DB::raw('COUNT(*) as jmlwo'))
+            ->where('wo_type', 'other')
+            ->groupBy('wo_status')
+            ->get();
+        
+        $datapm = DB::table('wo_mstr')
+            ->select('wo_status', DB::raw('COUNT(*) as jmlpm'))
+            ->where('wo_type', 'auto')
+            ->groupBy('wo_status')
+            ->get();
+        
+        return view('report.wostat', compact('data','datawo','datapm'));
 
     }
     

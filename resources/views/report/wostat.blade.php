@@ -24,7 +24,8 @@
         <thead>
             <tr>
                 <th width="30%">Status<span id="location_id_icon"></span></th>
-                <th width="60%">Jumlah Status</th>  
+                <th width="35%">Jumlah WO</th>  
+                <th width="35%">Jumlah PM</th>  
             </tr>
         </thead>
         <tbody>
