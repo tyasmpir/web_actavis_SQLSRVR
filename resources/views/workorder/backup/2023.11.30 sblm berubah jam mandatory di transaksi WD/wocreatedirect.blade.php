@@ -310,7 +310,7 @@ hr.new1{
       <div class="col-md-2">
         <select id="c_finishtime" class="form-select c_finishtime mt-1"  name="c_finishtime" style="border:2px solid #ced4da;border-radius:.25rem" autofocus required>
           <option value=''></option>
-		  <option value='00'>00</option>
+          <option value='00'>00</option>
           <option value='01'>01</option>
           <option value='02'>02</option>
           <option value='03'>03</option>
@@ -338,7 +338,7 @@ hr.new1{
         :
         <select id="c_finishtimeminute" class="form-select c_finishtime" name="c_finishtimeminute" style="border:2px solid #ced4da;border-radius:.25rem" autofocus required>
           <option value=''></option>
-		  <option value='00'>00</option>
+          <option value='00'>00</option>
           <option value='01'>01</option>
           <option value='02'>02</option>
           <option value='03'>03</option>

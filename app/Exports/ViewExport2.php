@@ -47,7 +47,7 @@ class ViewExport2 implements FromQuery, WithHeadings, ShouldAutoSize,WithStyles
         $kondisi = "wo_mstr.wo_id > 0";
 
         if($this->wonbr != null ||$this->wonbr != '' ){
-            $kondisi .= "wo_nbr = '".$this->wonbr."'";
+            $kondisi .= " and wo_nbr = '".$this->wonbr."'";
             // dd($kondisi);
         }
         if($this->status != null ||$this->status != '' ){

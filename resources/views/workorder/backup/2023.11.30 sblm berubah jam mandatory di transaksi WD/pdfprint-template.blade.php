@@ -297,16 +297,11 @@
     
     <tr>
       {{--  A221028 <td style="font-family:sans-serif;text-align:left;height:20px"><p style="margin: 0px"><b>Tgl : </b> {{date('d-m-Y',strtotime($data[0]->wo_created_at))}}</p></td>  --}}
-	  @if(is_null($data[0]->wo_finish_date))
+      @if(is_null($data[0]->wo_finish_date))
         <td style="font-family:sans-serif;text-align:center;height:20px"><p style="margin: 0px"><b>-</b></p></td>
       @else
-		@if($data[0]->wo_finish_time == null || $data[0]->wo_finish_time =="")
-			@php($jamfinish = "")
-		@else
-			@php($jamfinish = date('H:i',strtotime($data[0]->wo_finish_time)))
-		@endif
-		<td style="font-family:sans-serif;text-align:left;height:20px"><p style="margin: 0px"><b>Tgl : </b> {{ date('d-m-Y',strtotime($data[0]->wo_finish_date )).' '.$jamfinish}}</p></td> 
-	  @endif
+        <td style="font-family:sans-serif;text-align:left;height:20px"><p style="margin: 0px"><b>Tgl : </b> {{ date('d-m-Y',strtotime($data[0]->wo_finish_date )).' '.date('H:i',strtotime($data[0]->wo_finish_time))}}</p></td>
+      @endif
 
       @if($data[0]->wo_reviewer_appdate != null)
         <td style="font-family:sans-serif;text-align:left;height:20px"><p style="margin: 0px"><b>Tgl : </b> {{date('d-m-Y',strtotime($data[0]->wo_reviewer_appdate))}}</p></td>
