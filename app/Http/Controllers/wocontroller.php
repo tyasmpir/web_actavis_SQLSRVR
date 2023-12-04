@@ -304,7 +304,7 @@ class wocontroller extends Controller
     }
 
     public function createdirectwo(Request $req){ /* blade : workorder.wocreatedirect */
-        //dd($req->all());
+
         $fn1 = null;
         $fn2 = null;
         $fn3 = null;
@@ -355,12 +355,11 @@ class wocontroller extends Controller
                ->where('imp_code','=',$cimpact)
                ->first();
                $cimpactdesclist .= $testimp->imp_desc.';';
-            //    dd($cimpact,$testimp); 
+
             }
             $cimpactlist .= $cimpact.';';
         }
-        //dd($req->get('c_engineer')[0]);
-        //dd($req->get('c_engineer')[4]);
+
         $tablern = DB::table('running_mstr') /* 1 */
                 ->first();
         $tempnewrunnbr = strval(intval($tablern->wd_nbr)+1);
@@ -382,7 +381,8 @@ class wocontroller extends Controller
                 } 
 
                 $runningnbr = $tablern->wd_prefix.'-'.$dispthn.'-'.$dispnum;
-				
+
+		$finisht = $req->c_finishtime.':'.$req->c_finishtimeminute; /* 2023.04.12 karena jam tidak tersimpan */
         /* $runningnbr = $tablern->wd_prefix.'-'.$tablern->year.'-'.$newtemprunnbr; */
         if($wotype == 'auto'){
             if(isset($req->repairtype)){
@@ -406,21 +406,22 @@ class wocontroller extends Controller
                                     'wo_manual_repair_hour' => $req->rph5[$pop],
                                     'wo_manual_created_at'  => Carbon::now('ASIA/JAKARTA')->toDateTimeString()
                                 ]);
-                                    // dd($arraydettemp);
+
                                     DB::table('wo_manual_detail')->insert($arraymanual);
                             }
                             
                         }
+
                         $finisht = $req->c_finishtime.':'.$req->c_finishtimeminute;
                         $rprtype = 'manual';
                 }
                 else if($req->repairtype == 'code'){
-                    // dd('aaa');   
+   
                     $c_wotype = 'code';
                     DB::table('wo_rc_detail')
                     ->where('wrd_wo_nbr','=',$runningnbr)
                     ->delete();
-                    
+                    dump('test');
                     if($req->has('repaircode1')){
                         $rc1 = $req->repaircode1[0];
                         
@@ -669,8 +670,6 @@ class wocontroller extends Controller
                     }
                     }
                 
-                    
-                    //  dd($req->all());
                     $finisht = $req->c_finishtime.':'.$req->c_finishtimeminute;
                     $rprtype = 'code';
                     // dd($finisht);
@@ -778,11 +777,13 @@ class wocontroller extends Controller
 
                         // dd($flagname);
                     }
+
                     $finisht = $req->c_finishtime.':'.$req->c_finishtimeminute;
                     $rprtype = 'group';
                 }
             }
         }
+		
         $dataarray = array(
             'wo_nbr'           => $runningnbr,
             'wo_dept'          => Session::get('department'),
