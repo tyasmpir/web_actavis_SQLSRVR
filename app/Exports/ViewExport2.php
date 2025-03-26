@@ -136,7 +136,7 @@ class ViewExport2 implements FromQuery, WithHeadings, ShouldAutoSize,WithStyles
             return  DB::table('wo_mstr')
             ->selectRaw("wo_nbr,(case when wo_type = 'auto' then 'PM' else 'WO' end) as Type, asset_group,
                 wo_sr_nbr,convert(varchar, sr_created_at, 105) as 'tgl',convert(varchar, sr_created_at, 8) as 'jam',
-                wo_note,wo_asset,asset_desc,wo_new_type,
+                wo_note,wo_asset,asset_desc,wo_new_type,wo_impact,
                 IsNull(wo_mstr.wo_engineer1,'-') as 'eng1', IsNull(u1.eng_desc,'-') as 'nm1',
                 IsNull(wo_mstr.wo_engineer2,'-') as 'eng2', IsNull(u2.eng_desc,'-') as 'nm2', IsNull(wo_engineer3, '-') as 'eng3',
                 IsNull(u3.eng_desc, '-') as 'nm3', IsNull(wo_engineer4, '-') as 'eng4', IsNull(u4.eng_desc, '-') as 'nm4',
@@ -162,7 +162,7 @@ class ViewExport2 implements FromQuery, WithHeadings, ShouldAutoSize,WithStyles
     public function headings(): array
     {
         return ['Work Order Number','WO Type','Asset Group','Service Request Number','Service Request Date','Service Request Time',
-        'Note','Asset Code','Asset Name','WO Type','Engineer 1 Code','Engineer 1 Name','Engineer 2 Code',
+        'Note','Asset Code','Asset Name','WO Type','Impact','Engineer 1 Code','Engineer 1 Name','Engineer 2 Code',
         'Engineer 2 Name','Engineer 3 Code','Engineer 3 Name','Engineer 4 Code','Engineer 4 Name','Engineer 5 Code',
         'Engineer 5 Name','Department',
         'Schedule Date','Start Date','Finish Date','Finish Time',

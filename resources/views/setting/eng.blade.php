@@ -297,10 +297,13 @@
                 <div class="form-group row">
                     <label for="te_active" class="col-md-4 col-form-label text-md-right">Active <span id="alert1" style="color: red; font-weight: 200;">*</span></label>
                     <div class="col-md-6">
-                        <select id="te_active" class="form-control" name="te_active" required>
+                        <!-- 2024.04.01 Perubahan aktif hanya tidak hanya bisa dilakukan oleh IMI
+							Karena untuk mengatur login yang aktif sesuai license
+						<select id="te_active" class="form-control" name="te_active" required>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
-                        </select>
+                        </select> -->
+						<input id="te_active" type="input" class="form-control" name="te_active" readonly/>
                     </div>
                 </div>
                 <div class="form-group row">
