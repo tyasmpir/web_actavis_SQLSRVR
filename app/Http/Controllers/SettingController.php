@@ -4813,7 +4813,9 @@ class SettingController extends Controller
     //untuk menampilkan menu Engineer Master
     public function engmaster(Request $req)
     {   
-        if (strpos(Session::get('menu_access'), 'MT14') !== false) {
+        /* 2024.04.29 Diganti karena Bu Becha tidak dapat akses, pengaruh karena layout
+		if (strpos(Session::get('menu_access'), 'MT14') !== false) { */
+        if (strpos(Session::get('menu_access'), 'MT20') !== false) {
             $data = DB::table('eng_mstr')
                 ->orderby('eng_code')
                 ->get();
@@ -4875,14 +4877,22 @@ class SettingController extends Controller
     //untuk create Engineer Master
     public function createeng(Request $req)
     {
-        $jumlahusernow = DB::table('users')
-                        ->count();
         
         /** 2023.09.25 Penambahan 3 akses user, menjadi 17 */
+		/* 2024.04.01 User yang aktif adalah 13 user 
+			Pembatasan user berdasarkan aktif atau tidak nya user yang terdaftar
+			Jumlah user license = jumlah yang aktif di database
+			Untuk menonaktifkan user, langsung di tembak di database, karena di menu edit user, field aktif sudah dimatikan
+		*/
+        /** 2025.03.26 user aktif 15 */
+		
+		$jumlahusernow = DB::table('users')
+            ->where('active','=','Yes')
+			->count();
         
         //pembatas membuat user baru
-        if($jumlahusernow >= 20){  // ID user actavis 14, ID user imi 1
-            toast('Max. Create 17 User Only', 'error');
+        if($jumlahusernow >= 16){  // ID user actavis 14, ID user imi 1
+            toast('Max. Create 15 User Only', 'error');
             return back();
         }
 
