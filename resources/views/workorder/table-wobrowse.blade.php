@@ -18,6 +18,7 @@
   @else
     <td>WO</td>
   @endif
+  <td>{{ $show->wo_impact }}</td>
   <td>{{ $show->asset_group }}</td>
   <td>{{date('d-m-Y',strtotime($show->wo_created_at))}}</td>
   <td>{{$show->wo_creator}}</td>

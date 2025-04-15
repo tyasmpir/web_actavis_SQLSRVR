@@ -174,15 +174,15 @@ div #munculgambar .gambar:hover{
     </select>
   </div>
   <label for="" class="col-md-1 col-form-label text-md-right">{{ __('') }}</label>
-  <label for="s_typewo" class="col-md-2 col-form-label text-md-right">{{ __('Asset Group') }}</label>
+  <label for="s_group" class="col-md-2 col-form-label text-md-right">{{ __('Asset Group') }}</label>
   <div class="col-md-3 col-sm-12 mb-2 input-group">
-    <select id="s_typewo" type="text" class="form-control"  name="s_typewo">
+    <select id="s_group" type="text" class="form-control"  name="s_group">
     <!-- <option value="">--Select Type--</option>
     <option value="WO">WO</option>
     <option value="PM">PM</option> -->
     <option value="">--Select Asset Group--</option>
     @foreach($asgroup as $asgroup)
-    <option value="{{$asgroup->asgroup_code}}" {{$asgroup->asgroup_code === $tmpwotype ? "selected" : ""}}>{{$asgroup->asgroup_code}} -- {{$asgroup->asgroup_desc}}</option>
+    <option value="{{$asgroup->asgroup_code}}" {{$asgroup->asgroup_code === $tmpgroup ? "selected" : ""}}>{{$asgroup->asgroup_code}} -- {{$asgroup->asgroup_desc}}</option>
     @endforeach
     </select>
   </div>
@@ -195,12 +195,22 @@ div #munculgambar .gambar:hover{
   <div class="col-md-3 col-sm-12 mb-2 input-group">
     <input id="s_per2" type="date" class="form-control" name="s_per2" value="{{$tmpper1}}">
   </div>
-  <label for="s_impact" class="col-md-2 col-form-label text-md-left">{{ __('WO Type') }}</label>
+  <label for="s_typewo" class="col-md-2 col-form-label text-md-left">{{ __('WO Type') }}</label>
+  <div class="col-md-3 col-sm-12 mb-2 input-group">
+    <select id="s_typewo"  class="form-control s_typewo" name="s_typewo[]" >
+      <option value="" selected>Select WO Type</option>
+      @foreach($wottype as $dwotype)
+      <option value="{{$dwotype->wotyp_code}}" {{$dwotype->wotyp_code === $tmpwotype ? "selected" : ""}}>{{$dwotype->wotyp_code}} -- {{$dwotype->wotyp_desc}}</option>
+      @endforeach
+    </select>
+  </div>
+  <label for="" class="col-md-1 col-form-label text-md-right">{{ __('') }}</label>
+  <label for="s_impact" class="col-md-2 col-form-label text-md-right">{{ __('Impact') }}</label>
   <div class="col-md-3 col-sm-12 mb-2 input-group">
     <select id="s_impact"  class="form-control s_impact" name="s_impact[]" >
-      <option value="" selected>Select WO Type</option>
-      @foreach($wottype as $s_impact)
-      <option value="{{$s_impact->wotyp_code}}" {{$s_impact->wotyp_code === $tmpimpact ? "selected" : ""}}>{{$s_impact->wotyp_code}} -- {{$s_impact->wotyp_desc}}</option>
+      <option value="" selected>Select Impact</option>
+      @foreach($impact as $dimpact)
+      <option value="{{$dimpact->imp_code}}" {{$dimpact->imp_code === $tmpimpact ? "selected" : ""}}>{{$dimpact->imp_code}} -- {{$dimpact->imp_desc}}</option>
       @endforeach
     </select>
   </div>
@@ -229,6 +239,7 @@ div #munculgambar .gambar:hover{
 <input type="hidden" id="tmpper1" value="{{$tmpper1}}"/>
 <input type="hidden" id="tmpper2" value="{{$tmpper2}}"/>
 <input type="hidden" id="tmpwotype" value="{{$tmpwotype}}"/>
+<input type="hidden" id="tmpgroup" value="{{$tmpgroup}}"/>
 <input type="hidden" id="tmpreqby" value="{{$tmpreqby}}">
 <input type="hidden" id="tmpimpact" value="{{$tmpimpact}}">
 
@@ -238,14 +249,15 @@ div #munculgambar .gambar:hover{
       <tr style="text-align: center;">
         <th class="sorting" data-sorting_type="asc" data-column_name="wo_nbr" width="10%">Work Order Number<span id="name_icon"></span></th>
         <th class="sorting" data-sorting_type="asc" data-column_name="wo_asset" width="10%">Asset<span id="username_icon"></span></th>
-        <th class="sorting" data-sorting_type="asc" data-column_name="wo_asset" width="30%">Desc Asset<span id="username_icon"></span></th>
+        <th class="sorting" data-sorting_type="asc" data-column_name="wo_asset" width="20%">Desc Asset<span id="username_icon"></span></th>
         <!-- <th class="sorting" data-sorting_type="asc" data-column_name="wo_schedule" width="5%">Schedule Date<span id="name_icon"></span></th>
         <th class="sorting" data-sorting_type="asc" data-column_name="wo_duedate" width="5%">Due Date<span id="username_icon"></span></th> -->
         <th class="sorting" data-sorting_type="asc" data-column_name="wo_status" width="10%">Status<span id="username_icon"></span></th>
         <!-- <th class="sorting" data-sorting_type="asc" data-column_name="wo_priority" width="5%">Priority</th> -->
         <th class="sorting" data-sorting_type="asc" data-column_name="wo_priority" width="5%">WO Type</th>
+		<th class="sorting" data-sorting_type="asc" data-column_name="wo_impact" width="5%">Impact</th>
         <th class="sorting" data-sorting_type="asc" data-column_name="wo_priority" width="5%">Asset Group</th>
-        <th class="sorting" data-sorting_type="asc" data-column_name="wo_created_at" width="10%">Requested Date<span id="username_icon"></span></th>
+        <th class="sorting" data-sorting_type="asc" data-column_name="wo_created_at" width="5%">Requested Date<span id="username_icon"></span></th>
         <th class="sorting" data-sorting_type="asc" data-column_name="wo_creator" width="10%">Requested by</th>
         <th width="10%">Action</th>
       </tr>
@@ -470,6 +482,7 @@ div #munculgambar .gambar:hover{
         <input type="hidden" id="etmpengineer" name="etmpengineer" value="{{$tmpengineer}}"/>
         <input type="hidden" id="etmpper1" name="etmpper1" value="{{$tmpper1}}"/>
         <input type="hidden" id="etmpper2" name="etmpper2" value="{{$tmpper2}}"/>
+		<input type="hidden" id="etmpgroup" name="etmpgroup" value="{{$tmpgroup}}"/>
         <input type="hidden" id="etmpwotype" name="etmpwotype" value="{{$tmpwotype}}"/>
         <input type="hidden" id="etmpreqby" name="etmpreqby" value="{{$tmpreqby}}">
         <input type="hidden" id="etmpimpact" name="etmpimpact" value="{{$tmpimpact}}">
@@ -852,6 +865,7 @@ div #munculgambar .gambar:hover{
             <input type="hidden" id="rtmpper1" name="rtmpper1" value="{{$tmpper1}}"/>
             <input type="hidden" id="rtmpper2" name="rtmpper2" value="{{$tmpper2}}"/>
             <input type="hidden" id="rtmpwotype" name="rtmpwotype" value="{{$tmpwotype}}"/>
+			<input type="hidden" id="rtmpgroup" name="rtmpwgroup" value="{{$tmpgroup}}"/>
             <input type="hidden" id="rtmpreqby" name="rtmpreqby" value="{{$tmpreqby}}">
             <input type="hidden" id="rtmpimpact" name="rtmpimpact" value="{{$tmpimpact}}">
             <input type="hidden" id="rpage" name="rpage" value="{{$page}}">
@@ -875,6 +889,7 @@ div #munculgambar .gambar:hover{
             <input type="hidden" id="ptmpper1" name="ptmpper1" value="{{$tmpper1}}"/>
             <input type="hidden" id="ptmpper2" name="ptmpper2" value="{{$tmpper2}}"/>
             <input type="hidden" id="ptmpwotype" name="ptmpwotype" value="{{$tmpwotype}}"/>
+			<input type="hidden" id="ptmpgroup" name="ptmpgroup" value="{{$tmpgroup}}"/>
             <input type="hidden" id="ptmpreqby" name="ptmpreqby" value="{{$tmpreqby}}">
             <input type="hidden" id="ptmpimpact" name="ptmpimpact" value="{{$tmpimpact}}">
             <input type="hidden" id="ppage" name="ppage" value="{{$page}}">
@@ -1050,6 +1065,7 @@ div #munculgambar .gambar:hover{
         <input type="hidden" id="atmpper1" name="atmpper1" value="{{$tmpper1}}"/>
         <input type="hidden" id="atmpper2" name="atmpper2" value="{{$tmpper2}}"/>
         <input type="hidden" id="atmpwotype" name="atmpwotype" value="{{$tmpwotype}}"/>
+		<input type="hidden" id="atmpgroup" name="atmpgroup" value="{{$tmpgroup}}"/>
         <input type="hidden" id="atmpreqby" name="atmpreqby" value="{{$tmpreqby}}">
         <input type="hidden" id="atmpimpact" name="atmpimpact" value="{{$tmpimpact}}">
         <input type="hidden" id="apage" name="apage" value="{{$page}}">
@@ -1283,6 +1299,7 @@ div #munculgambar .gambar:hover{
         <input type="hidden" id="dtmpper1" name="dtmpper1" value="{{$tmpper1}}"/>
         <input type="hidden" id="dtmpper2" name="dtmpper2" value="{{$tmpper2}}"/>
         <input type="hidden" id="dtmpwotype" name="dtmpwotype" value="{{$tmpwotype}}"/>
+		<input type="hidden" id="dtmpgroup" name="dtmpgroup" value="{{$tmpgroup}}"/>
         <input type="hidden" id="dtmpreqby" name="dtmpreqby" value="{{$tmpreqby}}">
         <input type="hidden" id="dtmpimpact" name="dtmpimpact" value="{{$tmpimpact}}">
         <input type="hidden" id="dpage" name="dpage" value="{{$page}}">
@@ -2518,11 +2535,11 @@ $(document).on('click','.approvewo',function(){
     $('#post_title_icon').html('');
   }
 
-  function fetch_data(page, sort_type, sort_by, wonumber,woasset,wostatus,woengineer,woper1,woper2,wotype,woreqby,woimpact) {
+  function fetch_data(page, sort_type, sort_by, wonumber,woasset,wostatus,woengineer,woper1,woper2,wotype,woreqby,woimpact,group) {
     $.ajax({
       url: "/womaint/pagination?page=" + page + "&sorttype=" + sort_type + "&sortby=" + sort_by + "&wonumber=" + wonumber 
       + "&woasset=" + woasset+ "&wostatus=" + wostatus + "&woengineer=" + woengineer + "&woper1=" + woper1 + "&woper2=" + woper2 + "&wotype=" + wotype
-      + "&woreqby=" + woreqby + "&woimpact=" + woimpact ,
+      + "&woreqby=" + woreqby + "&woimpact=" + woimpact  + "&group=" + group ,
       success: function(data) {
         console.log(data);
         $('tbody').html('');
@@ -2542,6 +2559,7 @@ $(document).on('click','.approvewo',function(){
     var wotype      = $('#s_typewo').val();
     var woreqby     = $('#s_creator').val();
     var woimpact    = $('#s_impact').val();
+	var group    = $('#s_group').val();
     
     var column_name = $('#hidden_column_name').val();
     var sort_type   = $('#hidden_sort_type').val();
@@ -2555,6 +2573,7 @@ $(document).on('click','.approvewo',function(){
     document.getElementById('tmpper1').value      = woper1;
     document.getElementById('tmpper2').value      = woper2;
     document.getElementById('tmpwotype').value    = wotype;
+	document.getElementById('tmpgroup').value    = group;
     document.getElementById('tmpreqby').value     = woreqby;
     document.getElementById('tmpimpact').value    = woimpact;
 
@@ -2566,6 +2585,7 @@ $(document).on('click','.approvewo',function(){
     document.getElementById('atmpper1').value      = woper1;
     document.getElementById('atmpper2').value      = woper2;
     document.getElementById('atmpwotype').value    = wotype;
+	document.getElementById('atmpgroup').value    = group;
     document.getElementById('atmpreqby').value     = woreqby;
     document.getElementById('atmpimpact').value    = woimpact;
 
@@ -2577,6 +2597,7 @@ $(document).on('click','.approvewo',function(){
     document.getElementById('etmpper1').value      = woper1;
     document.getElementById('etmpper2').value      = woper2;
     document.getElementById('etmpwotype').value    = wotype;
+	document.getElementById('etmpgroup').value    = group;
     document.getElementById('etmpreqby').value     = woreqby;
     document.getElementById('etmpimpact').value    = woimpact;
 
@@ -2588,6 +2609,7 @@ $(document).on('click','.approvewo',function(){
     document.getElementById('rtmpper1').value      = woper1;
     document.getElementById('rtmpper2').value      = woper2;
     document.getElementById('rtmpwotype').value    = wotype;
+	document.getElementById('rtmpgroup').value    = group;
     document.getElementById('rtmpreqby').value     = woreqby;
     document.getElementById('rtmpimpact').value    = woimpact;
 
@@ -2599,41 +2621,12 @@ $(document).on('click','.approvewo',function(){
     document.getElementById('ptmpper1').value      = woper1;
     document.getElementById('ptmpper2').value      = woper2;
     document.getElementById('ptmpwotype').value    = wotype;
+	document.getElementById('ptmpgroup').value    = group;
     document.getElementById('ptmpreqby').value     = woreqby;
     document.getElementById('ptmpimpact').value    = woimpact;
 
-    fetch_data(page, sort_type, column_name, wonumber, woasset,wostatus,woengineer,woper1,woper2,wotype,woreqby,woimpact);
+    fetch_data(page, sort_type, column_name, wonumber, woasset,wostatus,woengineer,woper1,woper2,wotype,woreqby,woimpact,group);
   });
-
-
-  // $(document).on('click', '.sorting', function() {
-  //   var column_name = $(this).data('column_name');
-  //   var order_type = $(this).data('sorting_type');
-  //   var reverse_order = '';
-  //   if (order_type == 'asc') {
-  //     $(this).data('sorting_type', 'desc');
-  //     reverse_order = 'desc';
-  //     clear_icon();
-  //     $('#' + column_name + '_icon').html('<span class="glyphicon glyphicon-triangle-bottom"></span>');
-  //   }
-  //   if (order_type == 'desc') {
-  //     $(this).data('sorting_type', 'asc');
-  //     reverse_order = 'asc';
-  //     clear_icon();
-  //     $('#' + column_name + '_icon').html('<span class="glyphicon glyphicon-triangle-top"></span>');
-  //   }
-  //   $('#hidden_column_name').val(column_name);
-  //   $('#hidden_sort_type').val(reverse_order);
-
-  //   var page     = $('#hidden_page').val();
-  //   var wonumber = $('#s_nomorwo').val();
-  //   var assert   = $('#s_asset').val();
-  //   var status   = $('#s_status').val();
-  //   var priority = $('#s_priority').val();
-  //   var engineer   = $('#s_engineer').val();
-  //   fetch_data(page, reverse_order, column_name, username, divisi);
-  // });
-
   
   $(document).on('click', '.pagination a', function(event) {
     event.preventDefault();
@@ -2653,10 +2646,11 @@ $(document).on('click','.approvewo',function(){
     var engineer    = $('#tmpengineer').val();
     var woper1      = $('#tmpper1').val();
     var woper2      = $('#tmpper2').val();
-    var wotype      = $('#tmpwotype').val();    
+    var wotype      = $('#tmpwotype').val();  
+	var group      = $('#tmpgroup').val();  	
     var woreqby     = $('#tmpreqby').val();
     var woimpact     = $('#tmpimpact').val();
-    fetch_data(page, sort_type,column_name,wonumber,asset,status,engineer,woper1,woper2,wotype,woreqby,woimpact);
+    fetch_data(page, sort_type,column_name,wonumber,asset,status,engineer,woper1,woper2,wotype,woreqby,woimpact,group);
   });
 
   $('#s_engineer').select2({
@@ -2699,6 +2693,7 @@ $(document).on('click','.approvewo',function(){
     document.getElementById('tmpper1').value      = '';
     document.getElementById('tmpper2').value      = '';
     document.getElementById('tmpwotype').value    = '';
+	document.getElementById('tmpgroup').value    = '';
     document.getElementById('tmpreqby').value     = '';
     document.getElementById('tmpimpact').value     = '';
     
@@ -2712,7 +2707,7 @@ $(document).on('click','.approvewo',function(){
       theme:'bootstrap4',
       engineer
     })
-    fetch_data(page, sort_type, column_name, wonumber, asset,status,engineer,woper1,woper2,wotype,woreqby,woimpact);
+    fetch_data(page, sort_type, column_name, wonumber, asset,status,engineer,woper1,woper2,wotype,woreqby,woimpact,group);
   });
 
   $(document).on('change','#c_engineernum',function(){

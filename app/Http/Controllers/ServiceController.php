@@ -205,9 +205,6 @@ class ServiceController extends Controller{
                 ->where('sr_status', '=', '1')
                 ->orderBy('sr_number', 'DESC')
                 ->paginate(50);
-                // ->get();
-
-                // dd($data);
 
             $datarepair = DB::table('rep_master')
                 ->get();
@@ -219,15 +216,12 @@ class ServiceController extends Controller{
                             ->selectRaw('MIN(xxrepgroup_id) as xxrepgroup_id , xxrepgroup_nbr, MIN(xxrepgroup_desc) as xxrepgroup_desc')
                             ->groupBy('xxrepgroup_nbr')
                             ->get();
+			
+			$dataimpact = DB::table('imp_mstr')->orderby('imp_code')->get();
 
-            // dd($data);
-
-            // $eng = DB::table('eng_mstr')
-            //         ->get();
-            
-            return view('service.servicereq-approval', ['datas'=>$data, 'asset'=>$datasset, 'repaircode' => $datarepair, 'repgroup' => $datarepgroup ]);
+            return view('service.servicereq-approval', ['datas'=>$data, 'asset'=>$datasset, 'repaircode' => $datarepair, 'repgroup' => $datarepgroup,
+				'dataimpact' => $dataimpact ]);
         }else{
-            // toast('anda tidak memiliki akses sebagai approver', 'error');
             return view('service.accessdenied');
         }
         
@@ -657,9 +651,9 @@ class ServiceController extends Controller{
             $srnumber = $req->get('srnumber');
             $asset = $req->get('asset');
             $priority = $req->get('priority');
-            // $period = $req->get('period');
-//dd('test');
-            if($srnumber == "" && $asset == "" && $priority == ""){
+            $impact = $req->get('impact');
+			// dd($req->all());
+            if($srnumber == "" && $asset == "" && $priority == ""  && $impact == ""){
                 $data = DB::table('service_req_mstr')
                     ->join('asset_mstr', 'asset_mstr.asset_code', 'service_req_mstr.sr_assetcode')
                     ->leftJoin('asset_type', 'asset_type.astype_code', 'asset_mstr.asset_type')
@@ -675,17 +669,7 @@ class ServiceController extends Controller{
 
                 return view('service.table-srapproval', ['datas'=>$data]);
             }else{
-                // $tigahari = Carbon::now()->subDays(3)->toDateTimeString();
-                // $limahari = Carbon::now()->subDays(5)->toDateTimeString();
-
-
-                // dd($tigahari,$limahari);
-
                 $kondisi = "sr_created_at > 01-01-1900";
-
-
-                
-              
 
                 if ($srnumber != '') {
                     $kondisi .= " and sr_number like '%".$srnumber."%'";
@@ -695,6 +679,9 @@ class ServiceController extends Controller{
                 }
                 if ($priority != ''){
                     $kondisi .= " and sr_priority = '".$priority."'";
+                }
+				if ($impact != ''){
+                    $kondisi .= " and sr_impact like '%".$impact."%'";
                 }
 
                 // dd($kondisi);

@@ -4881,7 +4881,7 @@ class SettingController extends Controller
         /** 2023.09.25 Penambahan 3 akses user, menjadi 17 */
         
         //pembatas membuat user baru
-        if($jumlahusernow >= 18){  // ID user actavis 14, ID user imi 1
+        if($jumlahusernow >= 20){  // ID user actavis 14, ID user imi 1
             toast('Max. Create 17 User Only', 'error');
             return back();
         }

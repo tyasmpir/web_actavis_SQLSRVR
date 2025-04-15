@@ -251,11 +251,12 @@ class wocontroller extends Controller
                             ->join('users','wo_mstr.wo_creator','users.username')
                             ->groupBy('wo_creator')
                             ->get();
+							
             return view('workorder.wobrowse', ['impact' => $impact, 'wottype'=>$wottype,'repairgroup' => $repairgroup,'data' => $data,'user' => $engineer,
                 'engine'=>$engineer,'asset1'=>$asset,'asset2'=>$asset,'failure' =>$failure,'usernow' =>$usernow,'dept'=>$depart,'fromhome' => '',
                 'repaircode' => $repaircode, 'custrnow' => $custrnow, 'asgroup' => $asgroup, 'page' => 1, 'tmpwo' => '',
                 'tmpasset' => '', 'tmpstatus' => '', 'tmpengineer' => '', 'tmpper1' => '', 'tmpper2' => '', 'tmpreqby' => '',
-                'tmpwotype' => '', 'tmpimpact' => '']);
+                'tmpwotype' => '', 'tmpimpact' => '', 'tmpgroup' => '']);
         } else {
             toast('Anda tidak memiliki akses menu, Silahkan kontak admin', 'error');
             return back();
@@ -1374,7 +1375,7 @@ class wocontroller extends Controller
     }
 
     public function wopaging(Request $req){ /* route : /womaint/pagination blade : workorder.table-wobrowse*/
-    // dd($req->all());
+		//dd($req->all());
         if ($req->ajax()) {
             $sort_by   = $req->get('sortby');
             $sort_type = $req->get('sorttype');
@@ -1388,6 +1389,7 @@ class wocontroller extends Controller
             $wotype    = $req->get('wotype');
             $woreqby   = $req->get('woreqby');
             $woimpact  = $req->get('woimpact');
+			$group  = $req->get('group');
 
             $usernow = DB::table('users')
                     ->leftjoin('eng_mstr','users.username','eng_mstr.eng_code')
@@ -1395,7 +1397,7 @@ class wocontroller extends Controller
                     ->get();
 
             if ($wonumber == '' and $asset == '' and $status == '' and $engineer =='' and $per1 == '' and $per2 == '' 
-            and $wotype == '' and $woreqby == '' and $woimpact == '') {     
+            and $wotype == '' and $woreqby == '' and $woimpact == '' and $group == '') {     
                 $data = DB::table('wo_mstr')
                         ->leftjoin('asset_mstr','wo_mstr.wo_asset','asset_mstr.asset_code')
                         ->orderby($sort_by, $sort_type)
@@ -1425,11 +1427,14 @@ class wocontroller extends Controller
                 if ($woreqby != ''){
                     $kondisi .= " and wo_creator = '". $woreqby ."'";
                 }
+				if ($group != '') {
+                   $kondisi .= " and asset_group = '". $group ."'";
+                }
                 if ($wotype != '') {
-                   $kondisi .= " and asset_group = '". $wotype ."'";
+                   $kondisi .= " and wo_new_type = '". $wotype ."'";
                 }
                 if ($woimpact != '' ) {
-                    $kondisi .= " and wo_new_type = '" .$woimpact. "'";
+                    $kondisi .= " and wo_impact like '%" .$woimpact. "%'";
                 }
                 
                 // dd($kondisi);
