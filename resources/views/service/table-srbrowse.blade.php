@@ -26,6 +26,7 @@
     @endif
     <td>{{$show->dept_desc}}</td>
     <td>{{$show->sr_priority}}</td>
+	<td>{{$show->sr_impact}}</td>
     <td>{{$show->req_by}}</td>
     <td>{{date('d-m-Y', strtotime($show->sr_created_at))}}</td>
 

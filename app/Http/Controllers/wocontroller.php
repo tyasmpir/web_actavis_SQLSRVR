@@ -1348,7 +1348,7 @@ class wocontroller extends Controller
             return redirect()->route('womaintpage',['page' => $req->epage, 'tmpwo' => $req->etmpwo,
                 'tmpasset' => $req->etmpasset, 'tmpstatus' => $req->etmpstatus, 'tmpengineer' => $req->etmpengineer,
                 'tmpper1' => $req->etmpper1, 'tmpper2' => $req->etmpper2, 'tmpwotype' => $req->etmpwotype,
-                'tmpreqby' => $req->etmpreqby, 'tmpimpact' => $req->etmpimpact]);
+                'tmpreqby' => $req->etmpreqby, 'tmpimpact' => $req->etmpimpact, 'tmpgroup' => $req->etmpgroup]);
         }
     
 
@@ -1371,7 +1371,7 @@ class wocontroller extends Controller
         return redirect()->route('womaintpage',['page' => $req->dpage, 'tmpwo' => $req->dtmpwo,
                 'tmpasset' => $req->dtmpasset, 'tmpstatus' => $req->dtmpstatus, 'tmpengineer' => $req->dtmpengineer,
                 'tmpper1' => $req->dtmpper1, 'tmpper2' => $req->dtmpper2, 'tmpwotype' => $req->dtmpwotype,
-                'tmpreqby' => $req->dtmpreqby, 'tmpimpact' => $req->dtmpimpact]);
+                'tmpreqby' => $req->dtmpreqby, 'tmpimpact' => $req->dtmpimpact, 'tmpgroup' => $req->dtmpgroup]);
     }
 
     public function wopaging(Request $req){ /* route : /womaint/pagination blade : workorder.table-wobrowse*/
@@ -1916,7 +1916,8 @@ class wocontroller extends Controller
 
     public function approvewo(Request $req){
          
-         $engineernow = $req->engappr[0];
+         // dd($req->all());
+		 $engineernow = $req->engappr[0];
          $engineerexplode = explode(',',$engineernow);
         //  dd($engineerexplode[4]);
          $engnow1 = '';
@@ -1977,7 +1978,7 @@ class wocontroller extends Controller
                 return redirect()->route('womaintpage',['page' => $req->ppage, 'tmpwo' => $req->ptmpwo,
                 'tmpasset' => $req->ptmpasset, 'tmpstatus' => $req->ptmpstatus, 'tmpengineer' => $req->ptmpengineer,
                 'tmpper1' => $req->ptmpper1, 'tmpper2' => $req->ptmpper2, 'tmpwotype' => $req->ptmpwotype,
-                'tmpreqby' => $req->ptmpreqby, 'tmpimpact' => $req->ptmpimpact]);
+                'tmpreqby' => $req->ptmpreqby, 'tmpimpact' => $req->ptmpimpact, 'tmpgroup' => $req->ptmpgroup]);
             }
             else{
                 $exprc = explode(',',$req->repaircodeapp);
@@ -2021,7 +2022,7 @@ class wocontroller extends Controller
                     return redirect()->route('womaintpage',['page' => $req->ppage, 'tmpwo' => $req->ptmpwo,
                     'tmpasset' => $req->ptmpasset, 'tmpstatus' => $req->ptmpstatus, 'tmpengineer' => $req->ptmpengineer,
                     'tmpper1' => $req->ptmpper1, 'tmpper2' => $req->ptmpper2, 'tmpwotype' => $req->ptmpwotype,
-                    'tmpreqby' => $req->ptmpreqby, 'tmpimpact' => $req->ptmpimpact]);
+                    'tmpreqby' => $req->ptmpreqby, 'tmpimpact' => $req->ptmpimpact, 'tmpgroup' => $req->ptmpgroup]);
                 }
             }
         else{
@@ -2033,7 +2034,7 @@ class wocontroller extends Controller
             return redirect()->route('womaintpage',['page' => $req->rpage, 'tmpwo' => $req->rtmpwo,
                 'tmpasset' => $req->rtmpasset, 'tmpstatus' => $req->rtmpstatus, 'tmpengineer' => $req->rtmpengineer,
                 'tmpper1' => $req->rtmpper1, 'tmpper2' => $req->rtmpper2, 'tmpwotype' => $req->rtmpwotype,
-                'tmpreqby' => $req->rtmpreqby, 'tmpimpact' => $req->rtmpimpact]);
+                'tmpreqby' => $req->rtmpreqby, 'tmpimpact' => $req->rtmpimpact, 'tmpgroup' => $req->rtmpwgroup]);
         }    
     }
 
@@ -3999,10 +4000,11 @@ class wocontroller extends Controller
         if($srnbr == null){
             // dd('1');
             if($req->switch2 =='approve'){
-                //dd('aa');
+                // dd('aa');
                 // $exprc = explode(',',$req->repaircodeapp);
 
                 if($req->formtype == 1){
+					//dd('a1');
                     DB::table('wo_mstr')
                         ->where('wo_nbr', '=', $wonumber)
                         ->update([
@@ -4028,9 +4030,10 @@ class wocontroller extends Controller
                     return redirect()->route('womaintpage',['page' => $req->apage, 'tmpwo' => $req->atmpwo,
                         'tmpasset' => $req->atmpasset, 'tmpstatus' => $req->atmpstatus, 'tmpengineer' => $req->atmpengineer,
                         'tmpper1' => $req->atmpper1, 'tmpper2' => $req->atmpper2, 'tmpwotype' => $req->atmpwotype,
-                        'tmpreqby' => $req->atmpreqby, 'tmpimpact' => $req->atmpimpact]);
+                        'tmpreqby' => $req->atmpreqby, 'tmpimpact' => $req->atmpimpact, 'tmpgroup' => $req->atmpgroup]);
                 }
                 else if($req->formtype == 2){
+					// dd('a2');
                     DB::table('wo_mstr')
                         ->where('wo_nbr', '=', $wonumber)
                         ->update([
@@ -4052,13 +4055,13 @@ class wocontroller extends Controller
                         return redirect()->route('womaintpage',['page' => $req->apage, 'tmpwo' => $req->atmpwo,
                         'tmpasset' => $req->atmpasset, 'tmpstatus' => $req->atmpstatus, 'tmpengineer' => $req->atmpengineer,
                         'tmpper1' => $req->atmpper1, 'tmpper2' => $req->atmpper2, 'tmpwotype' => $req->atmpwotype,
-                        'tmpreqby' => $req->atmpreqby, 'tmpimpact' => $req->atmpimpact]);
+                        'tmpreqby' => $req->atmpreqby, 'tmpimpact' => $req->atmpimpact, 'tmpgroup' => $req->atmpgroup]);
                 }
 
 
             } /* if($req->switch2 =='approve') */
             else{
-                
+                // dd('22');
                 DB::table('wo_mstr')
                 ->where('wo_nbr',$wonumber)
                 // ->update(['wo_status'=>'closed','wo_reject_reason'=>$req->uncompletenote]); --> A210927
@@ -4085,13 +4088,14 @@ class wocontroller extends Controller
                 return redirect()->route('womaintpage',['page' => $req->apage, 'tmpwo' => $req->atmpwo,
                         'tmpasset' => $req->atmpasset, 'tmpstatus' => $req->atmpstatus, 'tmpengineer' => $req->atmpengineer,
                         'tmpper1' => $req->atmpper1, 'tmpper2' => $req->atmpper2, 'tmpwotype' => $req->atmpwotype,
-                        'tmpreqby' => $req->atmpreqby, 'tmpimpact' => $req->atmpimpact]);
+                        'tmpreqby' => $req->atmpreqby, 'tmpimpact' => $req->atmpimpact, 'tmpgroup' => $req->atmpgroup]);
             } /* else if($req->switch2 =='approve')*/
 
 
         } else{ /* if($srnbr == null) */  
-
+			
             if($req->switch2 =='approve'){
+				// dd('a3');
                 // $exprc = explode(',',$req->repaircodeapp);
                 if($req->formtype == 1){
                     DB::table('wo_mstr')
@@ -4117,10 +4121,10 @@ class wocontroller extends Controller
                     return redirect()->route('womaintpage',['page' => $req->apage, 'tmpwo' => $req->atmpwo,
                         'tmpasset' => $req->atmpasset, 'tmpstatus' => $req->atmpstatus, 'tmpengineer' => $req->atmpengineer,
                         'tmpper1' => $req->atmpper1, 'tmpper2' => $req->atmpper2, 'tmpwotype' => $req->atmpwotype,
-                        'tmpreqby' => $req->atmpreqby, 'tmpimpact' => $req->atmpimpact]);
+                        'tmpreqby' => $req->atmpreqby, 'tmpimpact' => $req->atmpimpact, 'tmpgroup' => $req->atmpgroup]);
                 }
                 else if ($req->formtype == 2){
-            
+					// dd('a4');
                     // dd('lg maintenance');
                     
                     // $albumraw = $req->imgname;
@@ -4148,7 +4152,7 @@ class wocontroller extends Controller
                     return redirect()->route('womaintpage',['page' => $req->apage, 'tmpwo' => $req->atmpwo,
                         'tmpasset' => $req->atmpasset, 'tmpstatus' => $req->atmpstatus, 'tmpengineer' => $req->atmpengineer,
                         'tmpper1' => $req->atmpper1, 'tmpper2' => $req->atmpper2, 'tmpwotype' => $req->atmpwotype,
-                        'tmpreqby' => $req->atmpreqby, 'tmpimpact' => $req->atmpimpact]);
+                        'tmpreqby' => $req->atmpreqby, 'tmpimpact' => $req->atmpimpact, 'tmpgroup' => $req->atmpgroup]);
                 }
 
                 // A210927
@@ -4161,7 +4165,7 @@ class wocontroller extends Controller
                 }
             
             }else{
-        
+				// dd('a5');
                 DB::table('wo_mstr')
                 ->where('wo_nbr',$wonumber)
                 // ->update(['wo_status'=>'closed','wo_reject_reason'=>$req->uncompletenote]); --> A210927
@@ -4185,7 +4189,7 @@ class wocontroller extends Controller
                 return redirect()->route('womaintpage',['page' => $req->apage, 'tmpwo' => $req->atmpwo,
                         'tmpasset' => $req->atmpasset, 'tmpstatus' => $req->atmpstatus, 'tmpengineer' => $req->atmpengineer,
                         'tmpper1' => $req->atmpper1, 'tmpper2' => $req->atmpper2, 'tmpwotype' => $req->atmpwotype,
-                        'tmpreqby' => $req->atmpreqby, 'tmpimpact' => $req->atmpimpact]);
+                        'tmpreqby' => $req->atmpreqby, 'tmpimpact' => $req->atmpimpact, 'tmpgroup' => $req->atmpgroup]);
             }
 
             //EmailScheduleJobs::dispatch($wonumber,'','6','','',$srnbr,''); // A211021
@@ -4208,6 +4212,7 @@ class wocontroller extends Controller
         $pwotype    = $req->get('tmpwotype');
         $woreqby   = $req->get('tmpreqby');
         $pwoimpact  = $req->get('tmpimpact');
+		$group  = $req->get('tmpgroup');
         $page = $req->page;
         // dd($req->all());
 
@@ -4266,7 +4271,7 @@ class wocontroller extends Controller
                 'engine'=>$engineer,'asset1'=>$asset,'asset2'=>$asset,'failure' =>$failure,'usernow' =>$usernow,'dept'=>$depart,'fromhome' => '',
                 'repaircode' => $repaircode, 'custrnow' => $custrnow, 'asgroup' => $asgroup, 'page' => $page, 'tmpwo' => '',
                 'tmpasset' => '', 'tmpstatus' => '', 'tmpengineer' => '', 'tmpper1' => '', 'tmpper2' => '', 'tmpreqby' => '',
-                'tmpwotype' => '', 'tmpimpact' => '']);
+                'tmpwotype' => '', 'tmpimpact' => '', 'tmpgroup' => '']);
         } else {
             // dd('else');
             $kondisi = "wo_mstr.wo_id > 0";
@@ -4309,7 +4314,7 @@ class wocontroller extends Controller
                 'engine'=>$engineer,'asset1'=>$asset,'asset2'=>$asset,'failure' =>$failure,'usernow' =>$usernow,'dept'=>$depart,'fromhome' => '',
                 'repaircode' => $repaircode, 'custrnow' => $custrnow, 'asgroup' => $asgroup, 'page' => $page, 'tmpwo' => $wonumber,
                 'tmpasset' => $passet, 'tmpstatus' => $status, 'tmpengineer' => $pengineer, 'tmpper1' => $per1, 'tmpper2' => $per2,
-                'tmpreqby' => $woreqby, 'tmpwotype' => $pwotype, 'tmpimpact' => $pwoimpact]);
+                'tmpreqby' => $woreqby, 'tmpwotype' => $pwotype, 'tmpimpact' => $pwoimpact, 'tmpgroup' => $group]);
         }
     }
 

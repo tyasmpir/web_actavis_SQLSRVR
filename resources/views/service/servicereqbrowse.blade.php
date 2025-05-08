@@ -136,6 +136,15 @@
                 <option value="8">Reprocess</option>
               </select>
             </div>
+			<label for="s_impact" class="col-md-2 col-form-label text-md-right">{{ __('Impact') }}</label>
+			  <div class="col-md-3 col-sm-12 mb-2 input-group">
+				<select id="s_impact"  class="form-control s_impact" name="s_impact[]" >
+				  <option value="" selected>Select Impact</option>
+				  @foreach($dataimpact as $dimpact)
+				  <option value="{{$dimpact->imp_code}}">{{$dimpact->imp_code}} -- {{$dimpact->imp_desc}}</option>
+				  @endforeach
+				</select>
+			  </div>
             <div class="col-md-6 col-sm-4 mb-2 input-group">
               <input type="button" class="btn btn-primary col-md-3" id="btnsearch" value="Search" style="float:right" />
               &nbsp;&nbsp;&nbsp;
@@ -155,6 +164,7 @@
 <input type="hidden" id="tmppriority"/>
 <input type="hidden" id="tmpperiod"/>
 <input type="hidden" id="tmpuser"/>
+<input type="hidden" id="tmpimpact"/>
 @if($fromhome == 'open')
   <input type="hidden" id="tmpstatus" value="1"/>
 @else
@@ -172,6 +182,7 @@
         <th class="sorting" data-sorting_type="asc" data-column_name="so_cust"  width="7%">Status<span id="username_icon"></span></th>
         <th width = "13%">Department</th>
         <th width = "7%">Priority</th>
+		<th width = "7%">Impact</th>
         <th width = "9%">Requested by</th>
         <th width = "9%">Requested Date</th>
         <!-- <th width = "5%">Aging</th> -->
@@ -392,9 +403,10 @@ $(document).ready(function(){
       // theme : 'bootstrap4'
     });
 
-    function fetch_data(page, srnumber, asset, priority /*period*/, status, requestby) {
+    function fetch_data(page, srnumber, asset, priority /*period*/, status, requestby, impact) {
       $.ajax({
-        url: "/srbrowse/searchsr?page=" + page + "&srnumber=" + srnumber + "&asset=" + asset + "&priority=" + priority + /* "&period=" + period + */ "&status=" + status + "&requestby=" + requestby,
+        url: "/srbrowse/searchsr?page=" + page + "&srnumber=" + srnumber + "&asset=" + asset + "&priority=" + priority + 
+			/* "&period=" + period + */ "&status=" + status + "&requestby=" + requestby + "&impact=" + impact,
         success: function(data) {
           console.log(data);
           $('tbody').html('');
@@ -411,6 +423,7 @@ $(document).ready(function(){
     /*  var period = $('#s_period').val(); */
       var status = $('#s_status').val();
       var requestby = $('#s_user').val();
+	  var impact = $('#s_impact').val();
 
       // var column_name = $('#hidden_column_name').val();
       // var sort_type = $('#hidden_sort_type').val();
@@ -422,8 +435,9 @@ $(document).ready(function(){
       /*document.getElementById('tmpperiod').value = period; */
       document.getElementById('tmpstatus').value = status;
       document.getElementById('tmpuser').value = requestby;
+	  document.getElementById('tmpimpact').value = impact;
 
-      fetch_data(page, srnumber, asset, priority /*period*/, status, requestby);
+      fetch_data(page, srnumber, asset, priority /*period*/, status, requestby, impact);
     });
 
   
@@ -440,8 +454,9 @@ $(document).ready(function(){
       /*var period = $('#tmpperiod').val();*/
       var status = $('#tmpstatus').val();
       var requestby = $('#tmpuser').val();
+	  var impact = $('#s_impact').val();
       
-      fetch_data(page, srnumber, asset, priority /*period*/, status, requestby);
+      fetch_data(page, srnumber, asset, priority /*period*/, status, requestby, impact);
     });
 
     $(document).on('click', '#btnrefresh', function() {
@@ -451,6 +466,7 @@ $(document).ready(function(){
       /*var period = ''; */
       var status = '';
       var requestby = '';
+	  var impact = '';
       var page = 1;
 
       document.getElementById('s_servicenbr').value     = '';
@@ -464,9 +480,10 @@ $(document).ready(function(){
       document.getElementById('tmppriority').value = priority;
       /*document.getElementById('tmpperiod').value = period;*/
       document.getElementById('tmpstatus').value = status;
-      document.getElementById('tmpuser').value = requestby
+      document.getElementById('tmpuser').value = requestby;
+	  document.getElementById('tmpimpact').value = impact;
 
-      fetch_data(page, srnumber, asset, priority /*period*/, status, requestby);
+      fetch_data(page, srnumber, asset, priority /*period*/, status, requestby, impact);
 
       $("#s_asset").select2({
         width : '100%',

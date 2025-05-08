@@ -752,8 +752,12 @@ class ServiceController extends Controller{
         $datauser = DB::table('users')
                 ->where('active', '=', 'Yes')
                 ->get();
+				
+		$dataimpact = DB::table('imp_mstr')
+                    ->get();
 
-        return view('service.servicereqbrowse', ['datas'=>$data, 'asset'=>$datasset, 'fromhome' => '', 'users'=>$datauser]);
+        return view('service.servicereqbrowse', ['datas'=>$data, 'asset'=>$datasset, 'fromhome' => '', 'users'=>$datauser, 
+			'dataimpact' => $dataimpact]);
     }
 
     //tyas, link dari Home
@@ -795,10 +799,11 @@ class ServiceController extends Controller{
             // $period = $req->get('period');
             $status = $req->get('status');
             $requestby = $req->get('requestby');
+			$impact = $req->get('impact');
 
             // dd($requestby);
 
-            if($srnumber == "" && $asset == "" && $priority == ""  /*&& $period == "" */ && $status == "" && $requestby == ""){
+            if($srnumber == "" && $asset == "" && $priority == ""  /*&& $period == "" */ && $status == "" && $requestby == "" && $impact == ""){
                 // dd("test");
                 // $dummy = DB::table('service_req_mstr')
                 // ->selectRaw('wo_mstr.*,u1.eng_code as engcode1,u1.eng_desc as engdesc1,u2.eng_code as engcode2,u2.eng_desc as engdesc2,u3.eng_code as engcode3,u3.eng_desc as engdesc3')
@@ -888,6 +893,9 @@ class ServiceController extends Controller{
                 }
                 if ($requestby != ''){
                     $kondisi .= " AND req_username = '".$requestby."' ";
+                }
+				if ($impact != ''){
+                    $kondisi .= " AND sr_impact like '%".$impact."%' ";
                 }
 
                 // dd($kondisi);
