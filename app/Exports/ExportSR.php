@@ -60,7 +60,7 @@ class ExportSR implements FromQuery, WithHeadings, ShouldAutoSize,WithStyles
                 ->selectRaw("sr_number,wo_number,sr_assetcode,asset_desc")
                 ->selectRaw("CASE WHEN sr_status = 1 THEN 'Open' WHEN sr_status = 2 THEN 'Assigned' WHEN sr_status = 3 THEN 'Started'
                     WHEN sr_status = 4 THEN 'Finish' WHEN sr_status = 5 THEN 'Closed' END AS sr_status")
-                ->selectRaw("dept_desc,req_by,sr_priority,CAST(sr_created_at AS DATE) AS sr_created_at")
+                ->selectRaw("dept_desc,req_by,sr_priority,CAST(sr_created_at AS DATE) AS sr_created_at,sr_note")
                 ->leftjoin("asset_mstr","service_req_mstr.sr_assetcode","=","asset_mstr.asset_code")
                 ->leftjoin("dept_mstr","dept_mstr.dept_code","=","service_req_mstr.sr_dept")
                 ->whereRaw($kondisi)
@@ -91,7 +91,7 @@ class ExportSR implements FromQuery, WithHeadings, ShouldAutoSize,WithStyles
 
     public function headings(): array
     {
-        return ['Service Request Number','Wo Number','Asset Code','Asset Desc','Status','Department','Requested By','Priority','Requested Date'];
+        return ['Service Request Number','Wo Number','Asset Code','Asset Desc','Status','Department','Requested By','Priority','Requested Date','Note'];
     }
 
     

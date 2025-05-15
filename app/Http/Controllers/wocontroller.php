@@ -3998,13 +3998,8 @@ class wocontroller extends Controller
         }
 
         if($srnbr == null){
-            // dd('1');
             if($req->switch2 =='approve'){
-                // dd('aa');
-                // $exprc = explode(',',$req->repaircodeapp);
-
                 if($req->formtype == 1){
-					//dd('a1');
                     DB::table('wo_mstr')
                         ->where('wo_nbr', '=', $wonumber)
                         ->update([
@@ -4033,7 +4028,6 @@ class wocontroller extends Controller
                         'tmpreqby' => $req->atmpreqby, 'tmpimpact' => $req->atmpimpact, 'tmpgroup' => $req->atmpgroup]);
                 }
                 else if($req->formtype == 2){
-					// dd('a2');
                     DB::table('wo_mstr')
                         ->where('wo_nbr', '=', $wonumber)
                         ->update([
@@ -4061,7 +4055,6 @@ class wocontroller extends Controller
 
             } /* if($req->switch2 =='approve') */
             else{
-                // dd('22');
                 DB::table('wo_mstr')
                 ->where('wo_nbr',$wonumber)
                 // ->update(['wo_status'=>'closed','wo_reject_reason'=>$req->uncompletenote]); --> A210927
@@ -4090,13 +4083,8 @@ class wocontroller extends Controller
                         'tmpper1' => $req->atmpper1, 'tmpper2' => $req->atmpper2, 'tmpwotype' => $req->atmpwotype,
                         'tmpreqby' => $req->atmpreqby, 'tmpimpact' => $req->atmpimpact, 'tmpgroup' => $req->atmpgroup]);
             } /* else if($req->switch2 =='approve')*/
-
-
         } else{ /* if($srnbr == null) */  
-			
             if($req->switch2 =='approve'){
-				// dd('a3');
-                // $exprc = explode(',',$req->repaircodeapp);
                 if($req->formtype == 1){
                     DB::table('wo_mstr')
                         ->where('wo_nbr', '=', $wonumber)
@@ -4124,19 +4112,15 @@ class wocontroller extends Controller
                         'tmpreqby' => $req->atmpreqby, 'tmpimpact' => $req->atmpimpact, 'tmpgroup' => $req->atmpgroup]);
                 }
                 else if ($req->formtype == 2){
-					// dd('a4');
-                    // dd('lg maintenance');
-                    
-                    // $albumraw = $req->imgname;
-                        DB::table('wo_mstr')
-                                ->where('wo_nbr', '=', $wonumber)
-                                ->update([
-                                    'wo_status' => 'closed',
-                                    'wo_approval_note' => $wonote , //B211019
-                                    'wo_approver' => Session::get('username'),
-                                    'wo_approver_appdate' => Carbon::now('ASIA/JAKARTA')->toDateString()
-                                    
-                                ]);
+					DB::table('wo_mstr')
+							->where('wo_nbr', '=', $wonumber)
+							->update([
+								'wo_status' => 'closed',
+								'wo_approval_note' => $wonote , //B211019
+								'wo_approver' => Session::get('username'),
+								'wo_approver_appdate' => Carbon::now('ASIA/JAKARTA')->toDateString()
+								
+							]);
 
                     // A210927
                     if($srnbr !== null){
@@ -4165,7 +4149,6 @@ class wocontroller extends Controller
                 }
             
             }else{
-				// dd('a5');
                 DB::table('wo_mstr')
                 ->where('wo_nbr',$wonumber)
                 // ->update(['wo_status'=>'closed','wo_reject_reason'=>$req->uncompletenote]); --> A210927
@@ -4199,13 +4182,9 @@ class wocontroller extends Controller
 
     //fungsi untuk menampung page yang sama setelah submit
     public function womaintpage(Request $req){
-
-        // $sort_by   = $req->get('sortby');
-        // $sort_type = $req->get('sorttype');
         $wonumber  = $req->get('tmpwo');
         $passet     = $req->get('tmpasset');
         $status    = $req->get('tmpstatus');
-        //$priority  = $req->get('wopriority');
         $pengineer  = $req->get('tmpengineer');
         $per1      = $req->get('tmpper1');
         $per2      = $req->get('tmpper2');
@@ -4258,7 +4237,7 @@ class wocontroller extends Controller
                 ->get();
 
         if ($wonumber == '' and $passet == '' and $status == '' and $pengineer =='' and $per1 == '' and $per2 == '' 
-        and $pwotype == '' and $woreqby == '' and $pwoimpact == '') {
+        and $pwotype == '' and $woreqby == '' and $pwoimpact == '' and $group == '') {
             // dd('all');        
                 $data = DB::table('wo_mstr')
                 ->leftjoin('asset_mstr','wo_mstr.wo_asset','asset_mstr.asset_code')
