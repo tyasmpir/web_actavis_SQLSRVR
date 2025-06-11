@@ -522,6 +522,12 @@ hr.new1{
               <input type="hidden" name="o_assetcode" id="o_assetcode">
             </div>
           </div>
+		  <div class="form-group row justify-content-center">
+            <label for="o_note" class="col-md-4 col-form-label text-md-left">Note</label>
+            <div class="col-md-8">
+              <textarea class="form-control" name="o_note" id="o_note" rows="4" disabled></textarea>
+            </div>
+          </div>
           <div class="form-group row justify-content-center">
             <label for="o_finishdate" class="col-md-4 col-form-label text-md-left">Finish Date <span id="alert1" style="color: red; font-weight: 200;">*</span></label>
             <div class="col-md-8">
@@ -940,6 +946,7 @@ $(document).on('click', '#btnsearch', function() {
           var assetlastmt= result[0].asset_last_mtc;
           var assetlastus= result[0].asset_last_usage_mtc;
           var assettype  = result[0].asset_measure;
+		  var wonote  	 = result[0].wo_note;
           
 
           document.getElementById('repairtypenow').value = wotype;
@@ -1003,6 +1010,7 @@ $(document).on('click', '#btnsearch', function() {
           document.getElementById('o_srnbr').value       = srnbr;
           document.getElementById('o_asset').value       = asscode + '-' + asset;
           document.getElementById('o_assetcode').value   = asscode;
+		  document.getElementById('o_note').value   	 = wonote;
 
           $('#repaircode1').select2({
             placeholder: "Select Data",
