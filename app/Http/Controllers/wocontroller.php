@@ -4193,7 +4193,7 @@ class wocontroller extends Controller
         $pwoimpact  = $req->get('tmpimpact');
 		$group  = $req->get('tmpgroup');
         $page = $req->page;
-        // dd($req->all());
+        //dd($req->all());
 
         $usernow = DB::table('users')
                 ->leftjoin('eng_mstr','users.username','eng_mstr.eng_code')
@@ -4280,6 +4280,10 @@ class wocontroller extends Controller
             if ($pwoimpact != '' ) {
                 $kondisi .= " and wo_new_type = '" .$pwoimpact. "'";
             }
+			if ($group != '' ) {
+                $kondisi .= " and asset_group = '" .$group. "'";
+            }
+			
             
             // dd($kondisi);
             $data = DB::table('wo_mstr')
